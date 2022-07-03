@@ -1,0 +1,9 @@
+1. create a folder 
+2. type cd "file path name"
+3. type git init
+4. type git remote add origin https:/file name
+5. type git branch -M main
+6. type git add .
+7. type git branch -M main
+8. type git commit -m "First commit"
+9. type git push -u origin main
