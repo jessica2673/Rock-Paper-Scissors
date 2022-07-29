@@ -1,20 +1,24 @@
 let pWin = 0;
 let pLose = 0;
-let rounds = 0;
+const btnr = document.querySelector("#btn-r");
+const btnp = document.querySelector("#btn-p");
+const btns = document.querySelector("#btn-s");
+const buttons = document.querySelectorAll("button");
 
 function getComputerChoice() {
     let choice = Math.round(Math.random()*3);
     if(choice == 1) {
-        print("Rock");
+        return("Rock");
     } else if (choice == 2) {
-        print("Paper");
+        return("Paper");
     }
-    print("Scissors");
+    return("Scissors");
 }
 
-function playRound(playerSelection, computerSelection) {
+function playRound(playerSelection) {
     let p = playerSelection.toLowerCase();
-    let c = computerSelection.toLowerCase();
+    let c = getComputerChoice().toLowerCase();
+
     if(p == "rock" && c == "paper") {
         print("You lost! Paper beats rock!");
     } else if (p == "paper" && c == "scissors") {
@@ -23,38 +27,43 @@ function playRound(playerSelection, computerSelection) {
         print("You lost! Rock beats scissors!");
     } else if(p == c) {
         print("It's a tie!");
-    }
-    print("You won! Congratulations!");
-}
-
-function game(){
-    
-    let message = playRound(prompt("Enter a choice: "), getComputerChoice());
-
-    if(message.includes("lost")) {
-        pLose++;
-    } else if(message.includes("won")) {
-        pWin++;
-    }
-
-    rounds++;
-
-    if(rounds >= 5) {
-        statsMessage(pWin, pLose);
+    } else { 
+        print("You won! Congratulations!");
     }
 }
 
 function statsMessage(win, loss) {
-    const score = document.querySelector('#score');
+    const display = document.querySelector('#score');
+    const score = document.createElement("p");
     score.classList.add('score');
-    score.textContent = ("You have " + win + " wins and " + loss + " losses.");
+    score.textContent = ("You have " + win + " wins, and " + loss + " losses.");
+    display.appendChild(score);
 }
 
 function print(mssg) {
-    const display = document.querySelector("#display");
-    display.classList.add("display");
-    display.textContent = mssg;
+    if(mssg.includes("lost")) {
+        pLose++;
+    } else if(mssg.includes("won")) {
+        pWin++;
+    }
+
+    if(pWin >= 5 || pLose >= 5) {
+        statsMessage(pWin, pLose);
+        pWin = 0;
+        pLose = 0;
+    }
+
+    const display = document.querySelector('#display');
+    const message = document.createElement("p");
+    message.classList.add("message");
+    message.textContent = mssg;
+    display.appendChild(message);
 }
 
-console.log(playRound(prompt("Enter a choice: "), getComputerChoice()));
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        playRound(button.textContent); //get the text within the button
+    });
+});
+
 
